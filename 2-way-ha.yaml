@@ -1,5 +1,5 @@
 blueprint:
-  name: Synchronize 2 States
+  name: 2 way simulate
   description: Bind two switches together to act in unison 
   domain: automation
   input:
