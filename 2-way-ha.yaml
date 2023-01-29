@@ -1,30 +1,4 @@
-# 
-# Home Assistant Automation Blueprint
-#
-# Synchronize on/off states on multiple devices with queue
-#
-# Revision 8 with single mode and delay
-# Modified by Johan Schelin, Mar. 2021
-#
-
 blueprint:
-  name: Synchronize 2 States
-  description: Bind four entities together to act in unison (selected entites must all support the same state values)
-  domain: automation
-  input:
-    switch_1:
-      name: Entity 1
-      selector:
-        entity:
-          #domain: switch          
-    switch_2:
-      name: Entity 2
-      selector:
-        entity:
-          #domain: switch
-mode: restart
-max_exceeded: silent
-variables:blueprint:
   name: Synchronize 2 States
   description: Bind two switches together to act in unison 
   domain: automation
@@ -72,15 +46,3 @@ action:
       sequence:
         - service: 'switch.turn_{{ trigger.to_state.state }}'
           entity_id: !input switch_2
-  switch_1: !input 'switch_1'
-  switch_2: !input 'switch_2'
-trigger:
-  - platform: state
-    entity_id: !input 'switch_1'
-  - platform: state
-    entity_id: !input 'switch_2'
-action:
-- entity_id:
-  - '{% if trigger.from_state.entity_id == switch_1 %} {{ switch_2 }}'
-  - '{% if trigger.from_state.entity_id == switch_2 %} {{ switch_1 }}'
-  service:  homeassistant.turn_{{ trigger.to_state.state }}
