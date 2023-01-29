@@ -24,7 +24,54 @@ blueprint:
           #domain: switch
 mode: restart
 max_exceeded: silent
+variables:blueprint:
+  name: Synchronize 2 States
+  description: Bind two switches together to act in unison 
+  domain: automation
+  input:
+    switch_1:
+      name: Switch 1
+      selector:
+        entity:
+          domain: switch
+    switch_2:
+      name: Switch 2
+      selector:
+        entity:
+          domain: switch
+
 variables:
+  switch_1: !input switch_1
+  switch_2: !input switch_2
+
+trigger:
+  - platform: state
+    entity_id: 
+      - !input switch_1
+      - !input switch_2
+
+mode: single
+
+condition:
+  '{{ trigger.to_state.state != trigger.from_state.state }}'
+
+action:
+  # Set to target value
+  - choose:
+    - conditions:
+      - '{{ trigger.entity_id != switch_1 }}'
+      - '{{ trigger.to_state.state != states(switch_1) }}'
+      sequence:
+        - service: 'switch.turn_{{ trigger.to_state.state }}'
+          entity_id: !input switch_1
+
+  - choose:
+    - conditions:
+      - '{{ trigger.entity_id != switch_2 }}'
+      - '{{ trigger.to_state.state != states(switch_2) }}'
+      sequence:
+        - service: 'switch.turn_{{ trigger.to_state.state }}'
+          entity_id: !input switch_2
   switch_1: !input 'switch_1'
   switch_2: !input 'switch_2'
 trigger:
