@@ -8,8 +8,8 @@ blueprint:
       selector:
         entity:
           domain:
-      - switch
-      - light
+             - switch
+             - light
     switch_2:
       name: Switch 2
       selector:
