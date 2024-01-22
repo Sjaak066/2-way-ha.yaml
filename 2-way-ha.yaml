@@ -8,15 +8,15 @@ blueprint:
       selector:
         entity:
           domain:
-            - switch
-            - light
+             - switch
+             - light
     switch_2:
       name: Switch 2
       selector:
         entity:
           domain:
-            - switch
-            - light
+             - switch
+             - light
 variables:
   switch_1: !input switch_1
   switch_2: !input switch_2
